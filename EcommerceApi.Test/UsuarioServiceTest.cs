@@ -19,6 +19,11 @@ namespace EcommerceApi.Test
         public void ValidarUsuario()
         {
             Usuario user = new Usuario();
+            user.Email = "user@user.com.br";
+            user.Login = "user";
+            user.Nome = "Usuario";
+            user.Senha = "12345678";
+
             Assert.IsTrue(user.IsValid());
         }
     }
