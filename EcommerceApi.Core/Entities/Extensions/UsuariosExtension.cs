@@ -6,7 +6,7 @@ namespace EcommerceApi.Core.Entities.Extensions
 {
     public static class UsuariosExtension
     {
-        public static bool IsValid()
+        public static bool IsValid(this Usuario usuario)
         {
             throw new NotSupportedException();
         }
