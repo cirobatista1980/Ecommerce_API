@@ -9,8 +9,8 @@ namespace EcommerceApi.Core.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        private readonly IRepositoryBase<Usuario> repository;
-        public UsuarioService(IRepositoryBase<Usuario> _repository)
+        private readonly IUsuarioRepository repository;
+        public UsuarioService(IUsuarioRepository _repository)
         {
             repository = _repository;
         }
@@ -19,7 +19,7 @@ namespace EcommerceApi.Core.Services
         {
             if (usuario.IsValid())
             {
-                var user = repository.GetById(usuario);
+                var user = repository.GetUsuarioByLoginSenha(usuario);
                 return (user != null);
             }
             else
@@ -33,12 +33,29 @@ namespace EcommerceApi.Core.Services
 
         public bool Sigin(Usuario usuario)
         {
-            throw new NotImplementedException();
+            if(usuario.IsValid())
+            {
+                var user = repository.Insert(usuario);
+                return (user != null);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Sigout(Usuario usuario)
         {
-            throw new NotImplementedException();
+            if(usuario.IsValid())
+            {
+                usuario.Ativo = false;
+                var user = repository.Update(usuario);
+                return (user != null);
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

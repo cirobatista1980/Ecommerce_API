@@ -11,7 +11,7 @@ namespace EcommerceApi.Test
     public class UsuarioServiceTest
     {
         private readonly IUsuarioService service;
-        private readonly IRepositoryBase<Usuario> repository;
+        private readonly IUsuarioRepository repository;
         private readonly Usuario usuarioValido;
         private readonly Usuario usuarioInValido;
         public UsuarioServiceTest()
@@ -24,11 +24,14 @@ namespace EcommerceApi.Test
                 Email = "usuario@usuario.com",
                 Login = "user",
                 Nome = "user",
-                Senha = "12345678"
+                Senha = "12345678",
+                Ativo = true
             };
 
-            Mock<IRepositoryBase<Usuario>> mockRepository = new Mock<IRepositoryBase<Usuario>>();
-            mockRepository.Setup(x => x.GetById(usuarioValido)).Returns(usuarioValido);
+            Mock<IUsuarioRepository> mockRepository = new Mock<IUsuarioRepository>();
+            mockRepository.Setup(x => x.GetUsuarioByLoginSenha(usuarioValido)).Returns(usuarioValido);
+            mockRepository.Setup(x => x.Insert(usuarioValido)).Returns(usuarioValido);
+            mockRepository.Setup(x => x.Update(usuarioValido)).Returns(new Usuario(){Ativo = false});
             repository = mockRepository.Object;
             service = new UsuarioService(repository);
         }
@@ -56,6 +59,26 @@ namespace EcommerceApi.Test
         public void LogarUsuarioInValido()
         {
             Assert.IsFalse(service.Login(usuarioInValido));
+        }
+        [Test]
+        public void Sigin()
+        {
+            Assert.IsTrue(service.Sigin(usuarioValido));
+        }
+        [Test]
+        public void SiginFall()
+        {
+            Assert.IsFalse(service.Sigin(usuarioInValido));
+        }
+        [Test]
+        public void Sigout()
+        {
+            Assert.IsTrue(service.Sigout(usuarioValido));
+        }
+        [Test]
+        public void SigoutFall()
+        {
+            Assert.IsTrue(service.Sigout(usuarioValido));
         }
     }
 }
