@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EcommerceApi.Core.Entities.Validators;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,8 @@ namespace EcommerceApi.Core.Entities.Extensions
     {
         public static bool IsValid(this Usuario usuario)
         {
-            throw new NotSupportedException();
+            UsuarioValidator validator = new UsuarioValidator();
+            return validator.Validate(usuario).IsValid;
         }
     }
 }
