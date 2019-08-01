@@ -17,7 +17,7 @@ namespace EcommerceApi.Core.Services
 
         public bool Login(Usuario usuario)
         {
-            if (usuario.IsValid())
+            if (!string.IsNullOrEmpty(usuario.Login) && !string.IsNullOrEmpty(usuario.Senha))
             {
                 var user = repository.GetUsuarioByLoginSenha(usuario);
                 return (user != null);
